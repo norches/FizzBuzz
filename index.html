@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>FizzBuzz Game</title>
+</head>
+<body style="font-family: 'Roboto Light',sans-serif">
+<h1>This page plays FizzBuzz game itself!</h1>
+
+<p>Checkout rules: <button id="toggleRules" onclick="toggleRules()">Show Rules</button></p>
+<div id="rules" style="display: none">
+	<p>There is a game called FizzBuzz, basically it is a game where 2 people count down numbers from 1 trough "N"(any number, lets, say 100)</p>
+	<p>Like so, 1 2 3 4 5 6 7 8 etc..</p>
+	<p>But the actual trick of the game is to say "Fizz" each time next number is multiple of 3(meaning the remainder is 0 if divided by 3<br>
+		And say "Buzz" each time next number is multiple of 5, also if the number is both multiple of 3 and 5 player must say "FizzBuzz"
+	</p>
+	<p>for example:<br> 1<br> 2<br> Fizz //where 3 should be<br> 4<br> Buzz //where 5 should be<br> Fizz //where 6 should be... etc.<br> 7<br> 8<br> Fizz<br> Buzz<br> 11<br> Fizz<br> 13<br> 14<br> FizzBuzz<br> 16<br> 17<br> Fizz<br> 19<br> Buzz<br> etc...</p>
+</div>
+<p><b>Type down number N(or length of the game below and press  "FizzBuzz!" button to see computer play this game with itself</b></p>
+<label for="length">Length</label>
+<input id="length" name="length" value="" />
+
+<button id="fizzbuzz" onclick="printfizzbuzz()">FizzBuzz!</button>
+
+<h3 id="alertBox" style="color: red"></h3>
+
+<h2>
+	Results:
+</h2>
+
+<div id="results">
+
+</div>
+<script>
+let showRules = false;
+
+
+function* range(start, end, step) {
+    while (start < end) {
+        yield start;
+        start += step;
+    }
+}
+function errorAlert(value) {
+	let alertBox = document.querySelector("#alertBox")
+	alertBox.innerHTML = `"${value}" is not an Integer!`
+}
+
+function toggleRules() {
+	document.querySelector('#rules').style.display = showRules ? 'none' : 'block';
+	document.querySelector('#toggleRules').innerHTML = showRules ? 'Show Rules' : 'Hide Rules';
+	showRules = !showRules;
+}
+
+function printfizzbuzz() {
+    let start = 1
+	let inputStringValue = document.querySelector("#length").value
+	let inputIntValue =  parseInt(inputStringValue);
+	let length;
+	
+	let alertBox = document.querySelector("#alertBox")
+	
+	if (inputIntValue) {
+		length = inputIntValue;
+	} else {
+		errorAlert(inputStringValue);
+		return
+	}
+    let results = document.querySelector('#results');
+
+    //clearing previous results
+    results.innerHTML = "";
+    
+    //removing error alert
+	alertBox.innerHTML = "";
+
+    let numbers = Array.from(range(start, length + 1, 1));
+
+    let cases = [{
+            multiple: 3,
+            phrase: "Fizz"
+        },
+        {
+            multiple: 5,
+            phrase: "Buzz"
+        }
+    ];
+
+    for (let number of numbers) {
+        let output = "";
+
+        let matches = [];
+        const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+        for (let currentCase of cases) {
+            if (number % currentCase.multiple === 0) {
+                matches.push(currentCase.phrase);
+            }
+        }
+
+        if (matches.length > 0) {
+            output += matches.reduce(reducer);
+        } else {
+            output = number;
+        }
+        results.innerHTML += `${output}<br />`;
+    }
+}
+</script>
+</body>
+</html>
