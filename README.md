@@ -1,4 +1,4 @@
-#My minimalistic version of FizzBuzz
+# My minimalistic version of FizzBuzz
 
-##author: `Uvays Bakaev`
-telegram: @restart_app
+## author: `Uvays Bakaev`
+telegram: [@ivo_norch](https://t.me/ivo_norch)
